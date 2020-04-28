@@ -17,7 +17,7 @@ function App() {
       const response = await axios.get('http://localhost:8080/posts/')
       const data = await response.data
       const newPosts = data.map((post) =>
-        <Post post={post} />
+        <Post post={post} key={post._id} />
       )
       setPosts(newPosts)
     }
