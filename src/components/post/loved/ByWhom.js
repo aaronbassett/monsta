@@ -7,7 +7,7 @@ import UserLink from '../../user/UserLink'
 
 
 function ByWhom(props) {
-    const [state, dispatch] = useGlobalState()
+    const [state] = useGlobalState()
 
     const Nobody = () => {
         return (
@@ -34,7 +34,7 @@ function ByWhom(props) {
     }
 
     const UserAndAnother = (props) => {
-        const otherUser = _.remove([...props.lovedBy], (x) => x != state.currentUser.username)[0]
+        const otherUser = _.remove([...props.lovedBy], (x) => x !== state.currentUser.username)[0]
 
         return (
             <>
@@ -44,7 +44,7 @@ function ByWhom(props) {
     }
 
     const UserAndMultipleOthers = (props) => {
-        const otherUsers = _.remove([...props.lovedBy], (x) => x != state.currentUser.username)
+        const otherUsers = _.remove([...props.lovedBy], (x) => x !== state.currentUser.username)
         return (
             <>
                 Loved by <b>You</b>,&nbsp;

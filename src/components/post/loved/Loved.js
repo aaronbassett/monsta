@@ -12,7 +12,7 @@ function Loved(props) {
     const handleClick = () => {
         if (lovedBy.includes(props.user)) {
             setLoved(false)
-            setLovedBy(_.filter(lovedBy, (n) => n != props.user))
+            setLovedBy(_.filter(lovedBy, (n) => n !== props.user))
         } else {
             setLoved(true)
             setLovedBy([
