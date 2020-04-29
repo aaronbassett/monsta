@@ -9,6 +9,15 @@ import UserLink from '../../user/UserLink'
 function ByWhom(props) {
     const [state] = useGlobalState()
 
+    const CountOnly = (props) => {
+        return (
+            <>
+                <b>{props.count}</b>&nbsp;
+                <Pluralize singular={'person'} count={props.count} showCount={false} /> loved this
+            </>
+        )
+    }
+
     const Nobody = () => {
         return (
             <>
@@ -67,7 +76,11 @@ function ByWhom(props) {
     }
 
     if (props.lovedBy.length === 0) {
-        return <Nobody />
+        if (props.initialLoveCount > 0) {
+            return <CountOnly count={props.initialLoveCount} />
+        } else {
+            return <Nobody />
+        }
     } else if (props.lovedBy.length === 1) {
         if (props.lovedBy.includes(state.currentUser.username)) {
             return <OnlyUser />

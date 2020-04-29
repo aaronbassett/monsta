@@ -17,7 +17,7 @@ function PostBody(props) {
                 <Content style={{ padding: "20px", backgroundColor: "#fff" }}>
                     <PostDescription post={props.post} />
                     <Divider dashed />
-                    <Loved user='aaronbassett' />
+                    <Loved post={props.post} />
                     <br />
                     <CommentCount comments={props.post.comments} />
                 </Content>

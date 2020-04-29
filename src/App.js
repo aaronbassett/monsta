@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Layout, Row, Col } from 'antd';
 import axios from 'axios'
 
-import { GlobalStateProvider } from './state'
+import { GlobalStateProvider, useGlobalState } from './state'
 import Post from './components/post/Post'
 
 
@@ -10,11 +10,12 @@ const { Header, Footer, Content } = Layout;
 
 function App() {
 
+  const [state] = useGlobalState()
   const [posts, setPosts] = useState([])
 
   useEffect(() => {
     async function fetchPosts() {
-      const response = await axios.get('http://localhost:8080/posts/')
+      const response = await axios.get(`${state.server_url}/posts`)
       const data = await response.data
       const newPosts = data.map((post) =>
         <Post post={post} key={post._id} />
@@ -22,7 +23,7 @@ function App() {
       setPosts(newPosts)
     }
     fetchPosts()
-  }, [])
+  }, [state.server_url])
 
   return (
     <GlobalStateProvider>
