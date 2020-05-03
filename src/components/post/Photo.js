@@ -9,6 +9,7 @@ function Photo(props) {
         <ImageFilter
             image={props.photo.src}
             filter={filters[props.photo.filter]}
+            style={{ width: "500px", height: "500px" }}
         />
     )
 }

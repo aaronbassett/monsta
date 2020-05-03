@@ -6,25 +6,27 @@ import { GoogleRedirectCredential } from 'mongodb-stitch-browser-sdk'
 import { useGlobalState } from '../../state'
 
 function Login() {
-    const [state] = useGlobalState()
-    const stitch = state.stitch
-    const [loggedIn, setLoggedIn] = useState(stitch.auth.isLoggedIn)
+    const [state, dispatch] = useGlobalState()
+    const [loggedIn, setLoggedIn] = useState(state.stitch.auth.isLoggedIn)
 
     useEffect(() => {
-        if (stitch.auth.hasRedirectResult()) {
-            stitch.auth.handleRedirectResult().then(() => {
-                setLoggedIn(stitch.auth.isLoggedIn)
+        if (state.stitch.auth.hasRedirectResult()) {
+            state.stitch.auth.handleRedirectResult().then(() => {
+                setLoggedIn(state.stitch.auth.isLoggedIn)
+                dispatch(state)
             })
         }
-    }, [stitch.auth])
+    }, [state.stitch.auth])
 
     function handleClick() {
         if (loggedIn) {
-            stitch.auth.logout().then(() => {
-                setLoggedIn(stitch.auth.isLoggedIn)
+            state.stitch.auth.logout().then(() => {
+                setLoggedIn(state.stitch.auth.isLoggedIn)
+                dispatch(state)
             })
         } else {
-            stitch.auth.loginWithRedirect(new GoogleRedirectCredential())
+            state.stitch.auth.loginWithRedirect(new GoogleRedirectCredential())
+            dispatch(state)
         }
     }
 

@@ -18,7 +18,7 @@ function PostList() {
             setPosts(newPosts)
         }
         fetchPosts()
-    }, [state.server_url, http])
+    }, [state.server_url])
 
     return (
         <>
