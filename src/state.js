@@ -1,11 +1,10 @@
 import React from 'react';
+import { Stitch } from 'mongodb-stitch-browser-sdk'
 
 const initialGlobalState = {
     server_url: process.env.REACT_APP_MONSTA_SERVER_URL,
-    currentUser: {
-        'username': 'aaronbassett',
-        'avatar': 'https://gravatar.com/avatar/309287088ccfe196428a5dbe2b051c48?s=200&d=mp&r=pg'
-    }
+    stitch: Stitch.initializeDefaultAppClient(process.env.REACT_APP_STITCH_APP_ID),
+    currentUser: {}
 }
 
 const GlobalStateContext = React.createContext(initialGlobalState)
