@@ -21,22 +21,17 @@ function PostCreate() {
         setIsLoggedIn(state.stitch.auth.isLoggedIn)
     }, [state])
 
-    function getBase64(img, callback) {
-        const reader = new FileReader();
-        reader.addEventListener('load', () => callback(reader.result))
-        reader.readAsDataURL(img)
-    }
-
-    function handleClick() {
+    function openDrawer() {
         setDrawerVisible(true)
     }
 
-    function handleOnClose() {
+    function handleDrawerClose() {
         setDrawerVisible(false)
+        clearPhoto()
     }
 
-    function handleClose() {
-        handleOnClose()
+    function closeDrawer() {
+        handleDrawerClose()
     }
 
     function handleFilterChange(value) {
@@ -93,7 +88,11 @@ function PostCreate() {
                         name="post"
                         multiple={false}
                         showUploadList={false}
-                        action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                        action={`${state.server_url}/posts/image`}
+                        headers={{
+                            "x-stitch-username": state.stitch.auth.user.profile.name,
+                            "x-stitch-user-id": state.stitch.auth.user.id
+                        }}
                         beforeUpload={beforeUpload}
                         onChange={handleUpload}
                     >
@@ -114,20 +113,17 @@ function PostCreate() {
         if (!isLt2M) {
             message.error('Image must smaller than 2MB!')
         }
-        return isJpgOrPng && isLt2M;
+        return isJpgOrPng && isLt2M
     }
 
     function handleUpload(info) {
         if (info.file.status === 'uploading') {
             setImageUploading(true)
             return
-        }
-        if (info.file.status === 'done') {
-            // Get this url from response in real world.
-            getBase64(info.file.originFileObj, newImageUrl => {
-                setPhoto({ src: newImageUrl })
-                setImageUploading(false)
-            })
+        } else if (info.file.status === 'done') {
+            const previewImageUrl = `${process.env.REACT_APP_CLOUDINARY_IMAGE_URL}${info.file.response.public_id}`
+            setPhoto({ src: previewImageUrl })
+            setImageUploading(false)
         }
     }
 
@@ -139,7 +135,7 @@ function PostCreate() {
                 <Drawer
                     title="Upload a new photo"
                     width={548}
-                    onClose={handleOnClose}
+                    onClose={handleDrawerClose}
                     visible={drawerVisible}
                     bodyStyle={{ paddingBottom: 80 }}
                     footer={
@@ -149,12 +145,12 @@ function PostCreate() {
                             }}
                         >
                             <Button
-                                onClick={handleClose}
+                                onClick={closeDrawer}
                                 style={{ marginRight: 8 }}
                             >
                                 Cancel
                             </Button>
-                            <Button onClick={handleClose} type="primary">
+                            <Button onClick={closeDrawer} type="primary">
                                 Submit
                             </Button>
                         </div>
@@ -181,7 +177,7 @@ function PostCreate() {
                         </Row>
                     </Form>
                 </Drawer>
-                <Button onClick={handleClick} style={{ position: "fixed", bottom: "20px", right: "20px" }} type="ghost" shape="circle" icon={<PlusCircleFilled />} size="large" />
+                <Button onClick={openDrawer} style={{ position: "fixed", bottom: "20px", right: "20px" }} type="ghost" shape="circle" icon={<PlusCircleFilled />} size="large" />
             </>
         )
 }
