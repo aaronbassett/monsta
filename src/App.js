@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Layout, Row, Col } from 'antd';
-import Icon from '@ant-design/icons';
+import { Layout, Row, Col, Space } from 'antd';
 
 import { GlobalStateProvider, useGlobalState } from './state'
 import createHttpClient from './http'
-import MongoIconSvg from './monsta-icon.svg'
-import Login from './components/user/Login'
+import { MonstaHeader, MonstaFooter } from './components/monsta'
 import Post from './components/post/Post'
 
-const { Header, Footer, Content } = Layout;
+const { Content } = Layout;
 
 function App() {
 
@@ -31,10 +29,7 @@ function App() {
     return (
         <GlobalStateProvider>
             <Layout className="layout">
-                <Header>
-                    <img style={{ height: "31px", float: "left", marginTop: "16px" }} src={MongoIconSvg} />
-                    <Login />
-                </Header>
+                <MonstaHeader />
 
                 <Content style={{ padding: '0 50px', marginTop: "50px" }}>
                     <Row justify="center">
@@ -44,7 +39,7 @@ function App() {
                     </Row>
                 </Content>
 
-                <Footer style={{ textAlign: 'center' }}>Footer</Footer>
+                <MonstaFooter />
             </Layout >
         </GlobalStateProvider>
     )
