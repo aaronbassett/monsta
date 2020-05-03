@@ -5,7 +5,7 @@ import Login from '../user/Login'
 
 const { Header } = Layout;
 
-function MonstaHeader(props) {
+function MonstaHeader() {
     return (
         <Header>
             <a href="/">
