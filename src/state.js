@@ -4,7 +4,7 @@ import { Stitch } from 'mongodb-stitch-browser-sdk'
 const initialGlobalState = {
     server_url: process.env.REACT_APP_MONSTA_SERVER_URL,
     stitch: Stitch.initializeDefaultAppClient(process.env.REACT_APP_STITCH_APP_ID),
-    currentUser: {}
+    posts: []
 }
 
 const GlobalStateContext = React.createContext(initialGlobalState)

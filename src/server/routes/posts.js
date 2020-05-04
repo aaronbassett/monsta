@@ -13,15 +13,37 @@ cloudinary.config({
 router.get('/', async (req, res) => {
     const db = await connectDB()
     const collection = db.collection('posts')
-    const posts = await collection.find({}).toArray()
+    const posts = await collection.find({}).sort({ publishedOn: -1 }).toArray()
 
+    res.json(posts)
+})
+
+router.post('/', async (req, res) => {
+    const { photo, filter, description } = req.body
+    const db = await connectDB()
+    const collection = db.collection('posts')
+
+
+    const newPost = await collection.insertOne({
+        author: {
+            username: req.headers['x-stitch-username'],
+            userId: req.headers['x-stitch-user-id'],
+            avatar: req.headers['x-stitch-user-avatar']
+        },
+        description: description,
+        photo: photo,
+        filter: filter,
+        lovedCount: 0,
+        publishedOn: new Date()
+    })
+
+    const posts = await collection.find({}).sort({ publishedOn: -1 }).toArray()
     res.json(posts)
 })
 
 router.post('/image', async (req, res) => {
     new formidable.IncomingForm().parse(req).on('file', (name, file) => {
         cloudinary.uploader.upload(file.path, (result) => {
-            console.log(result)
             res.json(result)
         })
     })

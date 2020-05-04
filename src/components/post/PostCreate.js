@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { message } from 'antd'
-import _ from 'lodash'
+import { message, Form } from 'antd'
+import axios from 'axios'
 
 import { useGlobalState } from '../../state'
 import CreateButton from './upload/CreateButton'
@@ -8,14 +8,18 @@ import UploadDrawer from './upload/Drawer'
 
 
 function PostCreate() {
+    const [form] = Form.useForm()
     const [drawerVisible, setDrawerVisible] = useState(false)
     const [imageUploading, setImageUploading] = useState(false)
     const [photo, setPhoto] = useState({})
+    const [filter, setFilter] = useState("Default")
     const [isLoggedIn, setIsLoggedIn] = useState(false)
-    const [state] = useGlobalState()
+    const [imageDescription, setImageDescription] = useState({ value: "" })
+    const [state, dispatch] = useGlobalState()
 
     useEffect(() => {
         setIsLoggedIn(state.stitch.auth.isLoggedIn)
+        console.log(state.stitch.auth.user)
     }, [state])
 
     function openDrawer() {
@@ -32,10 +36,7 @@ function PostCreate() {
     }
 
     function handleFilterChange(value) {
-        setPhoto({
-            ...photo,
-            filter: value
-        })
+        setFilter(value)
     }
 
     function clearPhoto() {
@@ -59,10 +60,55 @@ function PostCreate() {
             setImageUploading(true)
             return
         } else if (info.file.status === 'done') {
-            const previewImageUrl = `${process.env.REACT_APP_CLOUDINARY_IMAGE_URL}${info.file.response.public_id}`
-            setPhoto({ src: previewImageUrl })
+            setPhoto(info.file.response)
             setImageUploading(false)
         }
+    }
+
+    function updateImageDescription(event) {
+        setImageDescription({
+            value: event.target.value
+        })
+    }
+
+    function submitForm(fields) {
+        if (!isLoggedIn) {
+            message.error('Please login to upload a photo')
+            return
+        }
+        if (!photo.public_id) {
+            message.error('Please upload a photo')
+            return
+        }
+        if (!fields.description) {
+            message.error('Please enter a description')
+            return
+        }
+
+        const filter = (fields.filter) ? fields.filter : "Default"
+
+        axios.post(`${state.server_url}/posts`, {
+            photo: photo,
+            filter: filter,
+            description: fields.description
+        }, {
+            headers: {
+                "x-stitch-username": state.stitch.auth.user.profile.name,
+                "x-stitch-user-id": state.stitch.auth.user.id,
+                "x-stitch-user-avatar": state.stitch.auth.user.profile.pictureUrl
+            }
+        }).then((response) => {
+            form.resetFields()
+            clearPhoto()
+            setFilter("Default")
+            setDrawerVisible(false)
+            dispatch({
+                ...state,
+                posts: response.data
+            })
+        }).catch((error) => {
+            message.error("Error uploading photo")
+        })
     }
 
     return (!isLoggedIn) ?
@@ -76,10 +122,15 @@ function PostCreate() {
                     drawerVisible={drawerVisible}
                     clearPhoto={clearPhoto}
                     photo={photo}
+                    filter={filter}
                     handleFilterChange={handleFilterChange}
                     beforeImageUpload={beforeImageUpload}
                     handleImageUpload={handleImageUpload}
                     imageUploading={imageUploading}
+                    imageDescription={imageDescription}
+                    updateImageDescription={updateImageDescription}
+                    form={form}
+                    submitForm={submitForm}
                 />
                 <CreateButton onClick={openDrawer} />
             </>

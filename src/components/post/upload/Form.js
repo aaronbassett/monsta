@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Form, Col, Row, Input, Select, Upload, Space } from 'antd'
-import { LoadingOutlined, PictureOutlined, DeleteFilled, FileMarkdownOutlined } from '@ant-design/icons'
+import { LoadingOutlined, PictureOutlined, DeleteFilled, FileMarkdownOutlined, CameraOutlined, BgColorsOutlined } from '@ant-design/icons'
 import _ from 'lodash'
 import Photo from '../Photo'
 
@@ -28,7 +28,7 @@ function UploadForm(props) {
                 <Row gutter={16}>
                     <Col span={24} style={{ positon: "relative" }}>
                         <Form.Item>
-                            <Photo photo={props.photo} />
+                            <Photo cloudinaryId={props.photo.public_id} filter={props.filter} />
                         </Form.Item>
                         <Button
                             shape="circle"
@@ -43,7 +43,7 @@ function UploadForm(props) {
                     <Col span={24}>
                         <Form.Item
                             name="filter"
-                            label="Choose a filter"
+                            label={<Space><BgColorsOutlined /> Choose a Filter</Space>}
                         >
                             <Select onChange={props.handleFilterChange}>
                                 <Option value="Default">No filter</Option>
@@ -62,7 +62,9 @@ function UploadForm(props) {
         return (
             <Row gutter={16}>
                 <Col span={24}>
-                    <Form.Item>
+                    <Form.Item
+                        label={<Space><CameraOutlined /> Photo</Space>}
+                    >
                         <Dragger
                             name="post"
                             multiple={false}
@@ -87,22 +89,27 @@ function UploadForm(props) {
     }
 
     return (
-        <Form layout="vertical" hideRequiredMark>
-            {props.photo.src ? imagePreview() : imageUploadArea()}
+        <Form
+            layout="vertical"
+            form={props.form}
+            onFinish={props.submitForm}
+            hideRequiredMark
+        >
+            {props.photo.public_id ? imagePreview() : imageUploadArea()}
 
             <Row gutter={16}>
                 <Col span={24}>
                     <Form.Item
                         name="description"
                         label={<Space><FileMarkdownOutlined /> Description</Space>}
-                        rules={[
-                            {
-                                required: true,
-                                message: 'please enter a description',
-                            },
-                        ]}
                     >
-                        <Input.TextArea rows={4} placeholder="Photo description" />
+                        <Input.TextArea
+                            rows={4}
+                            autoSize={{ minRows: 4, maxRows: 8 }}
+                            placeholder="Photo description"
+                            onChange={props.updateImageDescription}
+                            allowClear={true}
+                        />
                     </Form.Item>
                 </Col>
             </Row>

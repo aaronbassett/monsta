@@ -3,20 +3,28 @@ import ImageFilter from 'react-image-filter'
 import filters from './Filters'
 import defaultPhoto from '../../static/images/default-photo.png'
 
+function photoUrl(cloudinaryId) {
+    return `${process.env.REACT_APP_CLOUDINARY_IMAGE_URL}${cloudinaryId}`
+}
+
 function Photo(props) {
+
+    const imageUrl = (props.cloudinaryId) ? photoUrl(props.cloudinaryId) : defaultPhoto
 
     return (
         <ImageFilter
-            image={props.photo.src}
-            filter={filters[props.photo.filter]}
-            style={{ width: "500px", height: "500px" }}
+            image={imageUrl}
+            filter={filters[props.filter]}
+            style={{ width: props.width, height: props.height }}
         />
     )
 }
 
 Photo.defaultProps = {
-    src: defaultPhoto,
-    filter: 'Default'
+    filter: 'Default',
+    width: 500,
+    height: 500
 }
 
 export default Photo
+export { photoUrl }

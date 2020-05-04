@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Layout, Card } from 'antd'
 
-import Photo from './Photo'
+import Photo, { photoUrl } from './Photo'
 import PostBody from './body/PostBody'
 
 const { Sider, Content } = Layout
@@ -14,13 +14,13 @@ function Post(props) {
         setLoaded(false)
         async function preloadImage() {
             const img = new Image()
-            img.src = props.post.photo.src
+            img.src = photoUrl(props.post.photo.public_id)
             img.onload = (event) => {
                 setLoaded(true)
             }
         }
         preloadImage()
-    }, [props.post.photo.src])
+    }, [props.post.photo])
 
     return (
         <Card
@@ -31,7 +31,7 @@ function Post(props) {
         >
             <Layout>
                 <Content>
-                    <Photo photo={props.post.photo} />
+                    <Photo cloudinaryId={props.post.photo.public_id} filter={props.post.filter} />
                 </Content>
 
                 <Sider style={{ backgroundColor: "#fff" }} width="400px">

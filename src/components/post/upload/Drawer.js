@@ -1,6 +1,5 @@
 import React from 'react'
 import { Button, Drawer } from 'antd'
-import _ from 'lodash'
 
 import UploadForm from './Form'
 
@@ -12,7 +11,7 @@ function UploadDrawer(props) {
             <Button onClick={props.closeDrawer} style={{ marginRight: 8 }}>
                 Cancel
             </Button>
-            <Button onClick={props.closeDrawer} type="primary">
+            <Button onClick={props.form.submit} type="primary">
                 Submit
             </Button>
         </div>
@@ -30,10 +29,15 @@ function UploadDrawer(props) {
             <UploadForm
                 clearPhoto={props.clearPhoto}
                 photo={props.photo}
+                filter={props.filter}
                 handleFilterChange={props.handleFilterChange}
                 beforeImageUpload={props.beforeImageUpload}
                 handleImageUpload={props.handleImageUpload}
                 imageUploading={props.imageUploading}
+                imageDescription={props.imageDescription}
+                updateImageDescription={props.updateImageDescription}
+                form={props.form}
+                submitForm={props.submitForm}
             />
         </Drawer>
     )

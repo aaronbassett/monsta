@@ -4,7 +4,7 @@ import createHttpClient from '../../http'
 import Post from './Post'
 
 function PostList() {
-    const [state] = useGlobalState()
+    const [state, dispatch] = useGlobalState()
     const [posts, setPosts] = useState([])
     const http = createHttpClient(state)
 
@@ -12,13 +12,20 @@ function PostList() {
         async function fetchPosts() {
             const response = await http.get(`/posts`)
             const data = await response.data
-            const newPosts = data.map((post) =>
-                <Post post={post} key={post._id} />
-            )
-            setPosts(newPosts)
+            dispatch({
+                ...state,
+                posts: data
+            })
         }
         fetchPosts()
     }, [state.server_url])
+
+    useEffect(() => {
+        const newPosts = state.posts.map((post) =>
+            <Post post={post} key={post._id} />
+        )
+        setPosts(newPosts)
+    }, [state.posts])
 
     return (
         <>

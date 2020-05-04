@@ -17,4 +17,8 @@ function CommentCount(props) {
     )
 }
 
+CommentCount.defaultProps = {
+    comments: []
+}
+
 export default CommentCount
