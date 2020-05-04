@@ -13,7 +13,6 @@ function Login() {
         if (state.stitch.auth.hasRedirectResult()) {
             state.stitch.auth.handleRedirectResult().then(() => {
                 setLoggedIn(state.stitch.auth.isLoggedIn)
-                dispatch(state)
             })
         }
     }, [state.stitch.auth])
@@ -22,11 +21,13 @@ function Login() {
         if (loggedIn) {
             state.stitch.auth.logout().then(() => {
                 setLoggedIn(state.stitch.auth.isLoggedIn)
-                dispatch(state)
+                dispatch({
+                    ...state,
+                    stitch: state.stitch
+                })
             })
         } else {
             state.stitch.auth.loginWithRedirect(new GoogleRedirectCredential())
-            dispatch(state)
         }
     }
 

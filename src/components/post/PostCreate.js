@@ -19,7 +19,6 @@ function PostCreate() {
 
     useEffect(() => {
         setIsLoggedIn(state.stitch.auth.isLoggedIn)
-        console.log(state.stitch.auth.user)
     }, [state])
 
     function openDrawer() {

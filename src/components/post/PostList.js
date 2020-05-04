@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react'
+import axios from 'axios'
 import { useGlobalState } from '../../state'
-import createHttpClient from '../../http'
 import Post from './Post'
 
 function PostList() {
     const [state, dispatch] = useGlobalState()
     const [posts, setPosts] = useState([])
-    const http = createHttpClient(state)
 
     useEffect(() => {
         async function fetchPosts() {
-            const response = await http.get(`/posts`)
+            const response = await axios.get(`${state.server_url}/posts`)
             const data = await response.data
             dispatch({
                 ...state,
@@ -18,7 +17,7 @@ function PostList() {
             })
         }
         fetchPosts()
-    }, [state.server_url])
+    }, [state.server_url, state.stitch])
 
     useEffect(() => {
         const newPosts = state.posts.map((post) =>

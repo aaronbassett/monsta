@@ -11,7 +11,7 @@ function Heart(props) {
         <HeartTwoTone
             twoToneColor={props.loved ? "red" : "#ccc"}
             key="heart"
-            onClick={(state.currentUser) ? props.handleClick : null}
+            onClick={(state.stitch.auth.isLoggedIn) ? props.handleClick : null}
         />
     )
 }
