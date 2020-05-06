@@ -15,5 +15,6 @@ app.use(
 
 app.use('/posts', routes.posts)
 app.use('/loved', routes.loved)
+app.use('/comments', routes.comments)
 
 app.listen(port, () => console.log(`Monst Server listening on port #${port}`))

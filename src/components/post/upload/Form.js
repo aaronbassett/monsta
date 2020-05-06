@@ -16,7 +16,7 @@ function UploadForm(props) {
 
     useEffect(() => {
         setIsLoggedIn(state.stitch.auth.isLoggedIn)
-    }, [state])
+    }, [state.stitch])
 
     function imagePreview() {
         const filterOptions = _.keys(filters).sort().map((filter) =>
@@ -70,7 +70,7 @@ function UploadForm(props) {
                             multiple={false}
                             showUploadList={false}
                             action={`${state.server_url}/posts/image`}
-                            headers={(isLoggedIn) ? {
+                            headers={(state.stitch.auth.isLoggedIn) ? {
                                 "x-stitch-username": state.stitch.auth.user.profile.name,
                                 "x-stitch-user-id": state.stitch.auth.user.id
                             } : {}}

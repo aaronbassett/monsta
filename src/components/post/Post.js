@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Layout, Card } from 'antd'
-
+import { Link } from 'react-router-dom'
 import Photo, { photoUrl } from './Photo'
 import PostBody from './body/PostBody'
 
@@ -31,7 +31,9 @@ function Post(props) {
         >
             <Layout>
                 <Content>
-                    <Photo cloudinaryId={props.post.photo.public_id} filter={props.post.filter} />
+                    <Link to={`/p/${props.post._id}`}>
+                        <Photo cloudinaryId={props.post.photo.public_id} filter={props.post.filter} />
+                    </Link>
                 </Content>
 
                 <Sider style={{ backgroundColor: "#fff" }} width="400px">

@@ -1,8 +1,10 @@
 import React from 'react'
-import { Layout, Divider } from 'antd'
+import { Layout, Divider, Comment, Tooltip, Avatar } from 'antd'
+import TimeAgo from 'react-timeago'
 
 import Loved from '../loved/Loved'
 import CommentCount from '../comments/CommentCount'
+import UserLink from '../../user/UserLink'
 import PostHeader from './PostHeader'
 import PostDescription from './PostDescription'
 
@@ -19,7 +21,7 @@ function PostBody(props) {
                     <Divider dashed />
                     <Loved post={props.post} />
                     <br />
-                    <CommentCount comments={props.post.comments} />
+                    <CommentCount comments={props.post.comments} post={props.post} />
                 </Content>
             </Layout>
         </>

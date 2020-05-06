@@ -1,8 +1,8 @@
 import React from 'react'
-import { Layout, Row, Col } from 'antd';
+import { Layout, Row, Col } from 'antd'
 import PostList from '../post/PostList'
 
-const { Content } = Layout;
+const { Content } = Layout
 
 function MonstaBody(props) {
     return (

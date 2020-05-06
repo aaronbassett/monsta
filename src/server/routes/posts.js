@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import formidable from 'formidable'
 import cloudinary from 'cloudinary'
+import { ObjectID } from 'mongodb'
 import connectDB from '../db/db'
 
 const router = Router()
@@ -16,6 +17,14 @@ router.get('/', async (req, res) => {
     const posts = await collection.find({}).sort({ publishedOn: -1 }).toArray()
 
     res.json(posts)
+})
+
+router.get('/:postId', async (req, res) => {
+    const db = await connectDB()
+    const collection = db.collection('posts')
+    const post = await collection.findOne({ _id: new ObjectID(req.params.postId) })
+
+    res.json(post)
 })
 
 router.post('/', async (req, res) => {
