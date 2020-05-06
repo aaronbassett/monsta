@@ -1,6 +1,7 @@
 import React from 'react'
 import { Card, Avatar, Divider } from 'antd'
 import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons'
+import ReactMarkdown from 'react-markdown'
 import Photo from '../Photo'
 import CommentList from '../comments/CommentList'
 import Loved from '../loved/Loved'
@@ -27,7 +28,12 @@ function Post(props) {
             <Meta
                 avatar={<Avatar src={props.post.author.avatar} />}
                 title={props.post.author.username}
-                description={props.post.description}
+                description={
+                    <ReactMarkdown
+                        style={{ padding: "20px" }}
+                        source={props.post.description}
+                    />
+                }
             />
 
             <Divider dashed />
