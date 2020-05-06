@@ -1,16 +1,10 @@
-import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
-import { Layout, Row, Col, Card, Avatar, Divider } from 'antd'
+import React from 'react'
+import { Card, Avatar, Divider } from 'antd'
 import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons'
-import axios from 'axios'
-import Photo, { photoUrl } from '../Photo'
+import Photo from '../Photo'
 import CommentList from '../comments/CommentList'
-import AddComment from '../comments/AddComment'
 import Loved from '../loved/Loved'
 
-import { useGlobalState } from '../../../state'
-
-const { Content } = Layout
 const { Meta } = Card
 
 function Post(props) {

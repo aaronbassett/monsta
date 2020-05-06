@@ -1,10 +1,8 @@
 import React from 'react'
-import { Layout, Divider, Comment, Tooltip, Avatar } from 'antd'
-import TimeAgo from 'react-timeago'
+import { Layout, Divider } from 'antd'
 
 import Loved from '../loved/Loved'
 import CommentCount from '../comments/CommentCount'
-import UserLink from '../../user/UserLink'
 import PostHeader from './PostHeader'
 import PostDescription from './PostDescription'
 

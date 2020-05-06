@@ -1,11 +1,9 @@
 import React from 'react'
-import { Layout, Comment, Avatar, Tag, Space, Divider } from 'antd'
+import { Comment, Avatar, Tag, Space, Divider } from 'antd'
 import TimeAgo from 'react-timeago'
 import ReactMarkdown from 'react-markdown'
 
 import UserLink from '../../user/UserLink'
-
-const { Content } = Layout
 
 function PostComment(props) {
 

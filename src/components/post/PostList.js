@@ -17,7 +17,7 @@ function PostList() {
             })
         }
         fetchPosts()
-    }, [state.server_url, state.stitch])
+    }, [state.server_url])
 
     useEffect(() => {
         const newPosts = state.posts.map((post) =>

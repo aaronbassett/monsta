@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Button, Form, Col, Row, Input, Select, Upload, Space } from 'antd'
 import { LoadingOutlined, PictureOutlined, DeleteFilled, FileMarkdownOutlined, CameraOutlined, BgColorsOutlined } from '@ant-design/icons'
 import _ from 'lodash'
@@ -11,12 +11,7 @@ const { Option, OptGroup } = Select
 const { Dragger } = Upload
 
 function UploadForm(props) {
-    const [isLoggedIn, setIsLoggedIn] = useState(false)
     const [state] = useGlobalState()
-
-    useEffect(() => {
-        setIsLoggedIn(state.stitch.auth.isLoggedIn)
-    }, [state.stitch])
 
     function imagePreview() {
         const filterOptions = _.keys(filters).sort().map((filter) =>

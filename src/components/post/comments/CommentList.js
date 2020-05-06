@@ -29,7 +29,7 @@ function CommentList(props) {
             )
             setComments(newComments)
         }
-    }, [post.comments])
+    }, [post])
 
     function submitForm(values) {
         console.log(values)

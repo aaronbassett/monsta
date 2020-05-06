@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { Layout, Row, Col, Card, Avatar } from 'antd'
-import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons'
+import { Layout, Row, Col, Card } from 'antd'
 import axios from 'axios'
-import Photo, { photoUrl } from '../Photo'
 import Post from './Post'
 
 import { useGlobalState } from '../../../state'
 
 const { Content } = Layout
-const { Meta } = Card
 
 function PostDetail(props) {
     let { postId } = useParams()
