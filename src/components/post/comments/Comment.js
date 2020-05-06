@@ -1,5 +1,6 @@
 import React from 'react'
-import { Comment, Avatar, Tag, Space, Divider } from 'antd'
+import { Comment, Avatar, Tag, Space, Divider, Button } from 'antd'
+import { CommentOutlined } from '@ant-design/icons'
 import TimeAgo from 'react-timeago'
 import ReactMarkdown from 'react-markdown'
 
@@ -7,12 +8,27 @@ import UserLink from '../../user/UserLink'
 
 function PostComment(props) {
 
+    const actions = []
     const dateTimeTag = (
         <Space>
             <TimeAgo date={props.comment.publishedOn} minPeriod={10} />
             {(props.post.author.userId === props.comment.author.userId) ? <Tag color="green">author</Tag> : null}
         </Space>
     )
+
+    if (props.allowReplies) {
+        actions.push(
+            <Button
+                type="link"
+                size="small"
+                icon={<CommentOutlined />}
+                style={{ color: "#ccc" }}
+                onClick={() => props.replyTo(props.comment.author, props.commentIndex)}
+            >
+                reply
+            </Button>
+        )
+    }
 
     return (
         <>
@@ -24,15 +40,18 @@ function PostComment(props) {
                         alt={props.comment.author.username}
                     />
                 }
+                actions={actions}
                 content={
                     <ReactMarkdown
-                        style={{ padding: "20px" }}
+                        style={{ padding: 0 }}
                         source={props.comment.comment}
                     />
                 }
                 datetime={dateTimeTag}
-            />
-            <Divider dashed />
+            >
+                {props.children}
+            </Comment>
+            {props.allowReplies && <Divider dashed />}
         </>
     )
 }

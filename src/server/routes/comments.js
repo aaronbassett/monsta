@@ -6,15 +6,17 @@ const router = Router()
 
 
 router.post('/:postId', async (req, res) => {
-    const { comment } = req.body
+    const { comment, replyTo } = req.body
     const db = await connectDB()
     const collection = db.collection('posts')
+
+    const commentPath = (replyTo !== undefined) ? `comments.${replyTo}.comments` : 'comments'
 
     const post = await collection.findOneAndUpdate(
         { _id: new ObjectID(req.params.postId) },
         {
             '$push': {
-                'comments': {
+                [commentPath]: {
                     _id: new ObjectID(),
                     author: {
                         username: req.headers['x-stitch-username'],
