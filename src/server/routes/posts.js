@@ -27,6 +27,19 @@ router.get('/:postId', async (req, res) => {
     res.json(post)
 })
 
+router.delete('/:postId', async (req, res) => {
+    const db = await connectDB()
+    const collection = db.collection('posts')
+    const deleted = await collection.findOneAndDelete(
+        {
+            _id: new ObjectID(req.params.postId),
+            'author.userId': req.headers['x-stitch-user-id']
+        }
+    )
+
+    res.json(deleted)
+})
+
 router.post('/', async (req, res) => {
     const { photo, filter, description } = req.body
     const db = await connectDB()

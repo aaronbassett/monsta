@@ -27,7 +27,7 @@ function Login() {
                 })
             })
         } else {
-            state.stitch.auth.loginWithRedirect(new GoogleRedirectCredential())
+            state.stitch.auth.loginWithRedirect(new GoogleRedirectCredential(process.env.REACT_APP_MONSTA_APP_REDIRECT_URL))
         }
     }
 
