@@ -8,6 +8,7 @@ import CommentList from '../comments/CommentList'
 import Loved from '../loved/Loved'
 import { useGlobalState } from '../../../state'
 import { DeletePostButton, DeletePostModal } from './Delete'
+import UserLink from '../../user/UserLink'
 
 const { Meta } = Card
 
@@ -66,7 +67,7 @@ function Post(props) {
             >
                 <Meta
                     avatar={<Avatar src={props.post.author.avatar} />}
-                    title={props.post.author.username}
+                    title={<UserLink username={props.post.author.username} userId={props.post.author.userId} />}
                     description={
                         <ReactMarkdown
                             style={{ padding: "20px" }}

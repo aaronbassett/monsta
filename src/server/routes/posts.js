@@ -27,6 +27,14 @@ router.get('/:postId', async (req, res) => {
     res.json(post)
 })
 
+router.get('/user/:userId', async (req, res) => {
+    const db = await connectDB()
+    const collection = db.collection('posts')
+    const posts = await collection.find({ 'author.userId': req.params.userId }).sort({ publishedOn: -1 }).toArray()
+
+    res.json(posts)
+})
+
 router.delete('/:postId', async (req, res) => {
     const db = await connectDB()
     const collection = db.collection('posts')

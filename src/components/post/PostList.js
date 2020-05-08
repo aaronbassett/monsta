@@ -3,14 +3,15 @@ import axios from 'axios'
 import { useGlobalState } from '../../state'
 import Post from './Post'
 
-function PostList() {
+function PostList(props) {
     const [state, dispatch] = useGlobalState()
     const [loading, setLoading] = useState(true)
     const [posts, setPosts] = useState([])
 
     useEffect(() => {
         async function fetchPosts() {
-            const response = await axios.get(`${state.server_url}/posts`)
+            const postsUrl = (props.userId) ? `${state.server_url}/posts/user/${props.userId}` : `${state.server_url}/posts`
+            const response = await axios.get(postsUrl)
             const data = await response.data
             dispatch({
                 posts: data

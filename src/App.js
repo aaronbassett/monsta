@@ -6,6 +6,7 @@ import { GlobalStateProvider } from './state'
 import { MonstaBody, MonstaHeader, MonstaFooter } from './components/monsta'
 import PostCreate from './components/post/PostCreate'
 import PostDetail from './components/post/detail/PostDetail'
+import UserDetail from './components/user/UserDetail'
 
 
 function App() {
@@ -15,6 +16,9 @@ function App() {
                 <Layout className="layout">
                     <MonstaHeader />
                     <Switch>
+                        <Route path={`/u/:userId`}>
+                            <UserDetail />
+                        </Route>
                         <Route path={`/p/:postId`}>
                             <PostDetail />
                         </Route>
